@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 app.use(cors());
@@ -8,8 +9,8 @@ app.use(express.json()); // Middleware to parse JSON
 
 const PORT = process.env.PORT || 3000;
 
-// MongoDB Atlas connection string
-const mongoURI ='mongodb+srv://kashishghadi16:hAWHhWke2qSKCCvJ@quotes.cy4u0k4.mongodb.net/';
+//MongoDB Atlas connection string
+const mongoURI = 'mongodb+srv://kashishghadi16:hAWHhWke2qSKCCvJ@quotes.cy4u0k4.mongodb.net/';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
@@ -43,6 +44,14 @@ app.get('/quotes-by-author/:author', async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
+});
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Route for the root URL
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Start server
