@@ -1,0 +1,32 @@
+<!-- public/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotes of the Day</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Quote of the Day</h1>
+    <div id="quote-container">
+      <p id="quote-text">Loading...</p>
+      <p id="quote-author"></p>
+    </div>
+    <div class="search-container">
+      <label for="author-select">Select author:</label>
+      <select id="author-select">
+        <option value="">All</option>
+        <option value="Oscar Wilde">Oscar Wilde</option>
+        <option value="Albert Einstein">Albert Einstein</option>
+        <option value="Frank Zappa">Frank Zappa</option>
+      </select>
+      <button id="search-btn">Search</button>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
