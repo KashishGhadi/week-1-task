@@ -9,7 +9,7 @@ app.use(express.json()); // Middleware to parse JSON
 
 const PORT = process.env.PORT || 3000;
 
-//MongoDB Atlas connection string
+// MongoDB Atlas connection string
 const mongoURI = 'mongodb+srv://kashishghadi16:hAWHhWke2qSKCCvJ@quotes.cy4u0k4.mongodb.net/';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -28,11 +28,18 @@ const Quote = mongoose.model('Quote', quoteSchema);
 app.get('/random-quote', async (req, res) => {
   try {
     const count = await Quote.countDocuments();
+    console.log(`Total quotes: ${count}`);
+    if (count === 0) {
+      return res.status(404).send('No quotes found');
+    }
     const random = Math.floor(Math.random() * count);
+    console.log(`Random index: ${random}`);
     const randomQuote = await Quote.findOne().skip(random);
+    console.log(`Random quote: ${randomQuote}`);
     res.json(randomQuote);
   } catch (error) {
-    res.status(500).send(error);
+    console.error('Error fetching random quote:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
@@ -42,7 +49,8 @@ app.get('/quotes-by-author/:author', async (req, res) => {
     const quotesByAuthor = await Quote.find({ author: req.params.author });
     res.json(quotesByAuthor);
   } catch (error) {
-    res.status(500).send(error);
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
